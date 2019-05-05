@@ -1,10 +1,9 @@
 from room import Room
-
-# Declare all the rooms
+from player import Player
+from items import Item
 
 room = {
-    'outside':  Room("Outside Cave Entrance",
-                     "North of you, the cave mount beckons"),
+    'outside':  Room("Outside Cave Entrance", "North of you, the cave mouth beckons"),
 
     'foyer':    Room("Foyer", """Dim light filters in from the south. Dusty
 passages run north and east."""),
@@ -38,6 +37,41 @@ room['treasure'].s_to = room['narrow']
 #
 
 # Make a new player object that is currently in the 'outside' room.
+
+player_name = input("Name?: ")
+player = Player(player_name, room['foyer'])
+alive = True
+
+def move_player(player_input):
+    valid_move = False
+    if player_input == 'n' and player.location.n_to != None:
+        player.location = player.location.n_to
+        print(player)
+        return player
+    elif player_input == 's' and player.location.s_to != None:
+        player.location = player.location.s_to
+        print(player)
+        return player
+    elif player_input == 'e' and player.location.e_to != None: 
+        player.location = player.location.e_to
+        print(player)
+        return player
+    elif player_input == 'w' and player.location.w_to != None: 
+        player.location = player.location.w_to
+        print(player)
+        return player
+    elif player_input == 'q':
+        return f'Goodbye. Come back soon, {player.name}...'
+    else:
+        print('Thats not a valid direction. Try again...')
+        player_input = input("What next?: \n")
+        move_player(player_input)  
+        
+while alive != False:
+    print(player)
+    player_input = input("What next?: \n")  
+    move_player(player_input)  
+    alive = False
 
 # Write a loop that:
 #
